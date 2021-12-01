@@ -36,9 +36,9 @@ void loop()
         JsonArray toppingsArray = doc.as<JsonArray>();
         switch (mode) {
             case 0:
+                chef.make(flavorChar, toppingsArray);
                 break;
             case 1:
-                chef.make(flavorChar, toppingsArray);
                 break;
             default:
                 break;
