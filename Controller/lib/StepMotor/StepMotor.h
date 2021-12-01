@@ -7,6 +7,7 @@
 class StepMotor : public MultiStepper
 {
 public:
+    StepMotor() = default;
     StepMotor(int motorInterfaceType, const int stepPins[3], const int dirPins[3]);
     AccelStepper stepper1;
     AccelStepper stepper2;
