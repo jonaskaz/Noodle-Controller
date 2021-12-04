@@ -1,10 +1,9 @@
 #include <Arduino.h>
 #include <AccelStepper.h>
-#include <MultiStepper.h>
 #include <ezButton.h>
 
 
-class StepMotor : public MultiStepper
+class StepMotor
 {
 public:
     StepMotor() = default;
@@ -12,7 +11,6 @@ public:
     AccelStepper stepper1;
     AccelStepper stepper2;
     AccelStepper stepper3;
-    MultiStepper steppers;
     void calibrate(int yMaxPin, int xMinPin, int xMaxPin);
     void goTo(int posx, int posy);
     void goToB(int posx, int posy);

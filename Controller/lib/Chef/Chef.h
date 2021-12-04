@@ -8,21 +8,21 @@ class Chef
 {
 public:
     Chef() = default;
-    void setup(int flavorPins[4], int toppingPins[4], StepMotor step, float speed);
+    void setup(int flavorPins[4], int toppingPins[4], StepMotor step, float flavSpeed);
     StepMotor step;
-    const char *flavors[4] = {"a", "b", "c", "d"};
+    char flavors[4] = "abcd";
     int flavorPosx[4] = {25, 25, 75, 75};
     int flavorPosy[4] = {25, 75, 25, 75};
-    const char *toppings[4] = {"a", "b", "c", "d"};
+    char toppings[4] = "abcd";
     int toppingPosx[10] = {25, 40, 55, 70};
     int toppingPosy[10] = {95, 95, 95, 95};
     int waterPos[2] = {95, 95};
-    void make(char* flavor, JsonArray toppings);
+    void make(char flavor, JsonArray toppings);
 private:
-    int getIndex(const char** array, char* target);
-    void getFlavor(char* flavor);
+    int getIndex(char* array, char target);
+    void getFlavor(char flavor);
     void getToppings(JsonArray toppings);
-    void getTopping(char* topping);
+    void getTopping(char topping);
     Servo toppingServoA;
     Servo toppingServoB;
     Servo toppingServoC;

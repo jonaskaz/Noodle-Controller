@@ -21,9 +21,6 @@ void StepMotor::setup(int maxSpeed, int speed, int accelx, int accely, int start
     stepper3.setMaxSpeed(maxSpeed);
     stepper3.setSpeed(speed);
     stepper3.setCurrentPosition(startPos[1]);
-    steppers.addStepper(stepper1);
-    steppers.addStepper(stepper2);
-    steppers.addStepper(stepper3);
 }
 
 void StepMotor::calibrate(int yMaxPin, int xMinPin, int xMaxPin)
@@ -35,7 +32,6 @@ void StepMotor::calibrate(int yMaxPin, int xMinPin, int xMaxPin)
     xMinBut.setDebounceTime(10);
     xMaxBut.setDebounceTime(10);
     yMin = stepper2.currentPosition();
-    Serial.println(yMin);
     while (yMaxBut.getStateRaw() == 0) {
         goTo(0, 1000);
     }
@@ -43,7 +39,6 @@ void StepMotor::calibrate(int yMaxPin, int xMinPin, int xMaxPin)
     stepper2.setCurrentPosition(yMax);
     stepper3.setCurrentPosition(yMax);
     delay(500);
-    Serial.println(yMax);
     while (xMinBut.getStateRaw() == 0) {
         stepper1.moveTo(-3000);
         stepper1.run();
@@ -51,7 +46,6 @@ void StepMotor::calibrate(int yMaxPin, int xMinPin, int xMaxPin)
     stepper1.setCurrentPosition(0);
     xMin = stepper1.currentPosition();
     delay(500);
-    Serial.println(xMin);
     while (xMaxBut.getStateRaw() == 0) {
         stepper1.moveTo(3000);
         stepper1.run();
@@ -59,7 +53,6 @@ void StepMotor::calibrate(int yMaxPin, int xMinPin, int xMaxPin)
     delay(500);
     xMax = stepper1.currentPosition();
     stepper1.setCurrentPosition(xMax);
-    Serial.println(xMax);
     goToB(0, 0);
 }
 
@@ -81,6 +74,7 @@ void StepMotor::goToB(int percentx, int percenty)
         stepper1.run();
         stepper2.run();
         stepper3.run();
+        
     }
 }
 
@@ -93,7 +87,6 @@ long * StepMotor::mapPercentToPos(int percentx, int percenty)
 {
     static long positions[3];
     float * steps = getPercentSteps();
-    Serial.println(steps[0]);
     positions[0] = steps[0] * percentx;
     positions[1] = steps[1] * percenty;
     positions[2] = steps[1] * percenty;
