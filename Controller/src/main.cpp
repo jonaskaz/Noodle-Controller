@@ -9,8 +9,7 @@
 
 const int stepPins[3] =  {3, 5, 7};
 const int dirPins[3] = {2, 4, 6};
-int flavorPins[4] = {11, 11, 11, 11};
-int toppingPins[4] = {11, 11, 11, 11};
+int toppingPins[4] = {22, 24, 11, 11};
 
 
 StepMotor step = StepMotor(motorInterfaceType, stepPins, dirPins);
@@ -22,9 +21,9 @@ void setup()
     Serial.begin(115200);
     int startingPos[2] = {0,0};
     step.setup(1000, 500, 1000, 1000, startingPos);
-    chef.setup(flavorPins, toppingPins, step, 20);
+    chef.setup(toppingPins, step, 20);
     delay(5000);
-    step.calibrate(yMaxPin, xMinPin, xMaxPin);
+    //step.calibrate(yMaxPin, xMinPin, xMaxPin);
     delay(2000);
 }
 
@@ -43,8 +42,18 @@ JsonArray readToppings(){
     return doc.as<JsonArray>();
 }
 
+void testOrder(){
+    JsonArray array = doc.to<JsonArray>();
+    array.add("a");
+    array.add("b");
+    chef.make('b', array);
+    delay(1000000000);
+}
+
 void loop()
 {
+    testOrder();
+    /*
     if (Serial.available() > 0) {
         int mode = Serial.parseInt();
         char flavorChar = readFlavor();
@@ -61,4 +70,5 @@ void loop()
         }
         delay(1000);
     }
+    */
 }

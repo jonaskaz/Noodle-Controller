@@ -8,7 +8,7 @@ class Chef
 {
 public:
     Chef() = default;
-    void setup(int flavorPins[4], int toppingPins[4], StepMotor step, float flavSpeed);
+    void setup(int toppingPins[4], StepMotor step, int flavSpeed);
     StepMotor step;
     char flavors[4] = "abcd";
     int flavorPosx[4] = {25, 25, 75, 75};
@@ -29,9 +29,9 @@ private:
     Servo toppingServoD;
     Servo topServos[4] = {toppingServoA, toppingServoB, toppingServoC, toppingServoD};
     Adafruit_MotorShield AFMS = Adafruit_MotorShield();
-    Adafruit_DCMotor *flavorA;
-    Adafruit_DCMotor *flavorB;
-    Adafruit_DCMotor *flavorC;
-    Adafruit_DCMotor *flavorD;
+    Adafruit_DCMotor *flavorA = AFMS.getMotor(1);
+    Adafruit_DCMotor *flavorB = AFMS.getMotor(2);
+    Adafruit_DCMotor *flavorC = AFMS.getMotor(3);
+    Adafruit_DCMotor *flavorD = AFMS.getMotor(4);
     Adafruit_DCMotor *flavorMotors[4] = {flavorA, flavorB, flavorC, flavorD};
 };
