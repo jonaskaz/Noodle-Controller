@@ -8,11 +8,11 @@ class Chef
 {
 public:
     Chef() = default;
-    void setup(int toppingPins[4], StepMotor step, int flavSpeed);
-    StepMotor step;
+    void setup(int toppingPins[4], StepMotor *step, int flavSpeed);
+    StepMotor *step;
     char flavors[4] = "abcd";
-    int flavorPosx[4] = {25, 25, 75, 75};
-    int flavorPosy[4] = {25, 75, 25, 75};
+    int flavorPosx[4] = {23, 24, 92, 92};
+    int flavorPosy[4] = {36, 87, 36, 87};
     char toppings[4] = "abcd";
     int toppingPosx[10] = {25, 40, 55, 70};
     int toppingPosy[10] = {95, 95, 95, 95};

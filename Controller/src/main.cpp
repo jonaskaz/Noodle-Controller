@@ -3,7 +3,7 @@
 #include <ArduinoJson.h>
 
 #define yMaxPin 8
-#define xMaxPin 10
+#define xMaxPin 12
 #define xMinPin 9
 #define motorInterfaceType 1
 
@@ -21,9 +21,10 @@ void setup()
     Serial.begin(115200);
     int startingPos[2] = {0,0};
     step.setup(1000, 500, 1000, 1000, startingPos);
-    chef.setup(toppingPins, step, 20);
-    delay(5000);
-    //step.calibrate(yMaxPin, xMinPin, xMaxPin);
+    StepMotor* stepPtr = &step;
+    chef.setup(toppingPins, stepPtr, 20);
+    delay(1000);
+    step.calibrate(yMaxPin, xMinPin, xMaxPin);
     delay(2000);
 }
 
@@ -46,14 +47,15 @@ void testOrder(){
     JsonArray array = doc.to<JsonArray>();
     array.add("a");
     array.add("b");
+    chef.make('a', array);
     chef.make('b', array);
+    chef.make('c', array);
+    chef.make('d', array);
     delay(1000000000);
 }
 
 void loop()
 {
-    testOrder();
-    /*
     if (Serial.available() > 0) {
         int mode = Serial.parseInt();
         char flavorChar = readFlavor();
@@ -70,5 +72,4 @@ void loop()
         }
         delay(1000);
     }
-    */
 }
