@@ -32,12 +32,6 @@ void StepMotor::calibrate(int yMaxPin, int xMinPin, int xMaxPin)
     xMinBut.setDebounceTime(10);
     xMaxBut.setDebounceTime(10);
     yMin = stepper2.currentPosition();
-    while (yMaxBut.getStateRaw() == 0) {
-        goTo(0, 1000);
-    }
-    yMax = stepper2.currentPosition();
-    stepper2.setCurrentPosition(yMax);
-    stepper3.setCurrentPosition(yMax);
     delay(500);
     while (xMinBut.getStateRaw() == 0) {
         stepper1.moveTo(-3000);
@@ -53,7 +47,15 @@ void StepMotor::calibrate(int yMaxPin, int xMinPin, int xMaxPin)
     delay(500);
     xMax = stepper1.currentPosition();
     stepper1.setCurrentPosition(xMax);
-    goToB(0, 0);
+    delay(500);
+    while (yMaxBut.getStateRaw() == 0) {
+        goTo(100, 1000);
+    }
+    yMax = stepper2.currentPosition();
+    stepper2.setCurrentPosition(yMax);
+    stepper3.setCurrentPosition(yMax);
+    delay(500);
+    goToB(50, 0);
 }
 
 void StepMotor::goTo(int percentx, int percenty)

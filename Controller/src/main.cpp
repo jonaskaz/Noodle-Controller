@@ -10,20 +10,22 @@
 const int stepPins[3] =  {3, 5, 7};
 const int dirPins[3] = {2, 4, 6};
 int toppingPins[4] = {22, 24, 11, 11};
+int waterPins[2] = {46, 47};
 
 
 StepMotor step = StepMotor(motorInterfaceType, stepPins, dirPins);
 Chef chef = Chef();
 StaticJsonDocument<200> doc;
+int numOrders = 0;
 
 void setup()
 {
     Serial.begin(115200);
     int startingPos[2] = {0,0};
-    step.setup(1000, 500, 1000, 1000, startingPos);
+    step.setup(1000, 700, 1000, 1000, startingPos);
     StepMotor* stepPtr = &step;
-    chef.setup(toppingPins, stepPtr, 20);
-    delay(1000);
+    chef.setup(toppingPins, stepPtr, 20, waterPins, motorInterfaceType);
+    delay(3000);
     step.calibrate(yMaxPin, xMinPin, xMaxPin);
     delay(2000);
 }
@@ -43,33 +45,28 @@ JsonArray readToppings(){
     return doc.as<JsonArray>();
 }
 
-void testOrder(){
-    JsonArray array = doc.to<JsonArray>();
-    array.add("a");
-    array.add("b");
-    chef.make('a', array);
-    chef.make('b', array);
-    chef.make('c', array);
-    chef.make('d', array);
-    delay(1000000000);
-}
-
 void loop()
-{
-    if (Serial.available() > 0) {
+{   
+    if (Serial.available() > 5) {
         int mode = Serial.parseInt();
         char flavorChar = readFlavor();
         JsonArray toppingsArray = readToppings();
         String top = toppingsArray.getElement(0);
-        switch (mode) {
-            case 0:
-                chef.make(flavorChar, toppingsArray);
-                break;
-            case 1:
-                break;
-            default:
-                break;
+        if (chef.checkFlavor(flavorChar)){
+            numOrders+=1;
+            if (numOrders%3 == 0){
+                step.calibrate(yMaxPin, xMinPin, xMaxPin);
+            }
+            switch (mode) {
+                case 0:
+                    chef.make(flavorChar, toppingsArray);
+                    break;
+                case 1:
+                    break;
+                default:
+                    break;
+            }
         }
-        delay(1000);
+        delay(3000);
     }
 }
